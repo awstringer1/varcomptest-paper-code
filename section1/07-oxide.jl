@@ -1,5 +1,11 @@
 ### Oxide --- nested ###
 
+home = homedir()
+datafile = "$home/data/oxide.csv"
+# From R package nlme, not included in RDatasets
+resultspath = "$home"
+savename = resultspath * "/oxideanalysis"
+
 using 
   MixedModels,
   CategoricalArrays,
@@ -20,3 +26,10 @@ lmod = lmm(ff, Oxide)
 control = VarCompControl(NewtonControl(verbose = false), 1000)
 A = Matrix([1., -1.]')
 vmod = varcompmodel(ff, Oxide, control = control, A = A)
+
+out = DataFrame(
+  hcat([vmod.bootresults.mle, vmod.bootresults.lrt]...),
+  vcat([vmod.vr.names, ["lrt"]]...)
+)
+
+CSV.write("$savename.csv", out)

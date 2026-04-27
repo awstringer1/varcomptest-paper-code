@@ -1,5 +1,9 @@
 ### Analyze the Penicillin data ###
 
+home = homedir()
+resultspath = home
+savename = resultspath * "/penicillinanalysis"
+
 using 
   CSV,
   DataFrames,
@@ -22,3 +26,11 @@ lmod = lmm(ff, Penicillin)
 control = VarCompControl(NewtonControl(verbose = false), 1000)
 A = Matrix([-1., 1.]')
 vmod = varcompmodel(ff, Penicillin, control = control, A = A)
+
+# Save results
+out = DataFrame(
+  hcat([vmod.bootresults.mle, vmod.bootresults.lrt]...),
+  vcat([vmod.vr.names, ["lrt"]]...)
+)
+
+CSV.write("$savename.csv", out)

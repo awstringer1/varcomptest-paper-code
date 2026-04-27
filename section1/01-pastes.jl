@@ -1,5 +1,10 @@
 ### Analyze the Pastes data ###
 
+home = homedir()
+resultspath = home
+savename = resultspath * "/pastesanalysis"
+
+
 using 
   MixedModels,
   CategoricalArrays,
@@ -18,3 +23,10 @@ lmod = lmm(ff, Pastes)
 control = VarCompControl(NewtonControl(verbose = false), 1000)
 A = Matrix([-1., 1.]')
 vmod = varcompmodel(ff, Pastes, control = control, A = A)
+
+out = DataFrame(
+  hcat([vmod.bootresults.mle, vmod.bootresults.lrt]...),
+  vcat([vmod.vr.names, ["lrt"]]...)
+)
+
+CSV.write("$savename.csv", out)
