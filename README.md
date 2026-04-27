@@ -39,3 +39,64 @@ The scripts to reproduce these analyses are the following:
 5. `section1/05-alfalfa.jl`
 6. `section1/06-barley.jl`
 7. `section1/07-oxide.jl` 
+
+
+## Section 6 and Supplement B
+
+These sections require the following packages:
+```
+using 
+  varcomptest,
+  DataFrames,
+  MixedModels,
+  Distributions,
+  CategoricalArrays,
+  JLD2,
+  StatsPlots,
+  CSV,
+  Base.Threads
+```
+
+These results were obtained using [a high performance cluster](https://docs.alliancecan.ca/wiki/Trillium).
+You may experience difficulty attempting to reproduce all of the simulations on smaller hardware.
+However, any individual simulation should run easily on a modern laptop.
+
+### Nested simulations
+
+The reason for the extra naming arguments is to facilitate running these scripts in a slurm array.
+The final three positional arguments are used for the slurm job ID, array node ID, and parallel task ID.
+When running locally, set the last two to `1` and set the first to any value complicated enough to be parsed uniquely
+out of the output file name, i.e. `12345` but not `1`.
+
+- **Run the simulations**: `section6/01-nested.jl`. Call from the command line with the following positional arguments, e.g. like `julia 10 01-nested.jl 1000 20260427 1 300 1 12345 1 1`:
+  - Number of threads (`10`)
+  - File name
+  - Number of simulations to do for each parameter combination (`1000`)
+  - Date, used for naming output file (`20260427`)
+  - Version number, used for naming output file (`1`)
+  - Number of bootstrap samples to do per simulated dataset (`300`)
+  - Indicator of sampling type, `1` is balanced, `2` is unbalanced (`1`)
+  - ID, used for naming output file (`12345`)
+  - ID, used for naming output file (`1`)
+  - ID, used for naming output file (`1`) 
+- **Summarize the results**: `section6/01-summarize-nested.R`. Run this from the command line with the job ID of the results from running the first file, e.g. `Rscript section6/01-summarize-nested.R 12345`.
+  - The script assumes the results are saved in `getwd()` in `R`.
+ 
+
+
+### Crossed simulations
+
+- **Run the simulations**: `section6/02-crossed.jl`. Call from the command line with the following positional arguments, e.g. like `julia 10 01-nested.jl 1000 20260427 1 300 6789 1 1`:
+  - Number of threads (`10`)
+  - File name
+  - Number of simulations to do for each parameter combination (`1000`)
+  - Date, used for naming output file (`20260427`)
+  - Version number, used for naming output file (`1`)
+  - Number of bootstrap samples to do per simulated dataset (`300`)
+  - ID, used for naming output file (`6789`)
+  - ID, used for naming output file (`1`)
+  - ID, used for naming output file (`1`) 
+- **Summarize the results**: `section6/02-summarize-crossed.R`. Run this from the command line with the job ID of the results from running the first file, e.g. `Rscript section6/02-summarize-crossed.R 6789`.
+  - The script assumes the results are saved in `getwd()` in `R`.
+ 
+
