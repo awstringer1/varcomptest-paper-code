@@ -98,5 +98,13 @@ out of the output file name, i.e. `12345` but not `1`.
   - ID, used for naming output file (`1`) 
 - **Summarize the results**: `section6/02-summarize-crossed.R`. Run this from the command line with the job ID of the results from running the first file, e.g. `Rscript section6/02-summarize-crossed.R 6789`.
   - The script assumes the results are saved in `getwd()` in `R`.
- 
 
+## Section 7
+
+Section 7 contains slightly expanded analysis of three of the examples from Table 1 in Section 1.
+In `section1` the code for these examples saves the relevant output (bootstrap samples) to the home directory.
+To reproduce the histograms in Figures 3, 4, and 5 in the main text, run the following files:
+
+1. `01-summarize-pastes.R`
+2. `04-summarize-penicillin.R`
+3. `07-summarize-oxide.R`
