@@ -1,6 +1,6 @@
 # Replication code for paper: Testing Linear Combinations of Multiple Variance Components
 
-Paper: ... (to be updated when link available)
+Paper: [arXiv](https://arxiv.org/abs/2604.25744)
 
 Sections 1, 6, and 7 of the main text and Section B of the supplementary materials report empirical results.
 This repository contains code and instructions for reproducing those results.
