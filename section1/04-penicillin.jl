@@ -1,8 +1,9 @@
 ### Analyze the Penicillin data ###
 
 home = homedir()
-resultspath = home
+resultspath = "$home/work/projects/testing-random-effects/julia/results"
 savename = resultspath * "/penicillinanalysis"
+
 
 using 
   CSV,
@@ -11,8 +12,6 @@ using
   MixedModels,
   CategoricalArrays,
   varcomptest,
-  StatsPlots,
-  Statistics,
   RDatasets
 
 Penicillin = dataset("lme4", "Penicillin");
@@ -22,12 +21,11 @@ Penicillin.Diameter = Float64.(Penicillin.Diameter);
 
 
 ff = @formula(Diameter ~ (1 | Plate) + (1 | Sample))
-lmod = lmm(ff, Penicillin)
-control = VarCompControl(NewtonControl(verbose = false), 1000)
+control = VarCompControl(NewtonControl(verbose = false), 100000)
 A = Matrix([-1., 1.]')
+_ = varcompmodel(ff, Penicillin, control = VarCompControl(NewtonControl(), 0), A = nothing)
 vmod = varcompmodel(ff, Penicillin, control = control, A = A)
 
-# Save results
 out = DataFrame(
   hcat([vmod.bootresults.mle, vmod.bootresults.lrt]...),
   vcat([vmod.vr.names, ["lrt"]]...)

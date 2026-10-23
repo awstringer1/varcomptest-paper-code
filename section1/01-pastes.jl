@@ -1,14 +1,19 @@
 ### Analyze the Pastes data ###
 
 home = homedir()
-resultspath = home
+resultspath = "$home/work/projects/testing-random-effects/julia/results"
 savename = resultspath * "/pastesanalysis"
 
 
 using 
+  CSV,
+  DataFrames,
+  LinearAlgebra,
   MixedModels,
   CategoricalArrays,
   varcomptest,
+  StatsPlots,
+  Statistics,
   RDatasets
 
 Pastes = dataset("lme4", "Pastes");
@@ -18,9 +23,11 @@ Pastes.Sample = categorical(Pastes.Sample, ordered = false, levels = unique(Past
 Pastes.BatchCask = string.(Pastes.Batch) .* ":" .* string.(Pastes.Cask)
 Pastes.BatchCask = categorical(Pastes.BatchCask, ordered = false, levels = unique(Pastes.BatchCask));
 
+
 ff = @formula(Strength ~ (1 | Batch) + (1 | BatchCask))
-lmod = lmm(ff, Pastes)
-control = VarCompControl(NewtonControl(verbose = false), 1000)
+# JIT
+_ = varcompmodel(ff, Pastes, control = VarCompControl(NewtonControl(), 0), A = nothing)
+control = VarCompControl(NewtonControl(), 100000)
 A = Matrix([-1., 1.]')
 vmod = varcompmodel(ff, Pastes, control = control, A = A)
 

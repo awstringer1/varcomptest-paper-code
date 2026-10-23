@@ -1,11 +1,12 @@
 ### Analyze the Alfalfa data ###
 home = homedir()
-datafile = "$home/data/alfalfa.csv"
+datafile = "$home/work/projects/testing-random-effects/data/alfalfa.csv"
 # From R package nlme, not included in RDatasets
 
 using 
   CSV,
   DataFrames,
+  LinearAlgebra,
   MixedModels,
   CategoricalArrays,
   varcomptest
@@ -19,7 +20,7 @@ Alfalfa.BlockDate = categorical(Alfalfa.BlockDate, ordered = false, levels = uni
 
 
 ff = @formula(Yield ~ Variety + (1 | Block) + (1 | BlockDate))
-lmod = lmm(ff, Alfalfa)
-control = VarCompControl(NewtonControl(verbose = false), 1000)
+control = VarCompControl(NewtonControl(verbose = false), 100000)
 A = Matrix([1., -1.]')
+_ = varcompmodel(ff, Alfalfa, control = VarCompControl(NewtonControl(), 0), A = nothing)
 vmod = varcompmodel(ff, Alfalfa, control = control, A = A)
