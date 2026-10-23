@@ -16,7 +16,7 @@ tau2mle <- 12.3371
 # julia> -vmod.opt.val + vmod.optcond.val
 lrt <- 7.086581827537202
 
-HISTBINS <- 30
+HISTBINS <- 100
 PLOTTEXTSIZE <- 2
 PLOTLINEWIDTH <- 2
 PLOTMARGIN <- 5
@@ -34,7 +34,8 @@ hist(
   ylab = "Bootstrap density",
   cex.main = PLOTTEXTSIZE,
   cex.axis = PLOTTEXTSIZE,
-  cex.lab = PLOTTEXTSIZE
+  cex.lab = PLOTTEXTSIZE,
+  xlim = c(0, 12)
 )
 abline(v = tau1mle, lty = "dashed", lwd = PLOTLINEWIDTH)
 dev.off()
@@ -51,7 +52,8 @@ hist(
   ylab = "Bootstrap density",
   cex.main = PLOTTEXTSIZE,
   cex.axis = PLOTTEXTSIZE,
-  cex.lab = PLOTTEXTSIZE
+  cex.lab = PLOTTEXTSIZE,
+  xlim = c(0, 20)
 )
 abline(v = tau2mle, lty = "dashed", lwd = PLOTLINEWIDTH)
 dev.off()
@@ -69,7 +71,8 @@ hist(
   ylab = "Bootstrap density",
   cex.main = PLOTTEXTSIZE,
   cex.axis = PLOTTEXTSIZE,
-  cex.lab = PLOTTEXTSIZE
+  cex.lab = PLOTTEXTSIZE,
+  xlim = c(-20, 10)
 )
 abline(v = tau1mle - tau2mle, lty = "dashed", lwd = PLOTLINEWIDTH)
 dev.off()
@@ -87,7 +90,8 @@ hist(
   ylab = "Bootstrap density",
   cex.main = PLOTTEXTSIZE,
   cex.axis = PLOTTEXTSIZE,
-  cex.lab = PLOTTEXTSIZE
+  cex.lab = PLOTTEXTSIZE,
+  xlim = c(0, 10)
 )
 abline(v = lrt, lty = "dashed", lwd = PLOTLINEWIDTH)
 dev.off()
