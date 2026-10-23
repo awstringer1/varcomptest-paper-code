@@ -2,22 +2,34 @@
 
 ## Paths ----
 
-resultspath = homedir()
+resultspath = homedir() * "/"
 if !isdir(resultspath)
   throw(SystemError("Could not access directory: $resultspath"))
 end
 # Parse command line arguments
-nsim = parse(Int64, ARGS[1])
-DATE = ARGS[2]
-SIMVERSION = ARGS[3]
-bootsamps = parse(Int64, ARGS[4])
-sampling = parse(Int64, ARGS[5])
-JOBID = ARGS[6]
-SIMIDX = ARGS[7]
-TASKID = ARGS[8]
-SAMPLINGTYPE = sampling == 1 ? "balanced" : sampling == 2 ? "unbalanced" : "unknown"
-if SAMPLINGTYPE == "unknown"
-  throw("Unknown sampling type $sampling")
+if length(ARGS) == 0
+  nsim = 100
+  DATE = "20260812"
+  SIMVERSION = "1"
+  bootsamps = 1000
+  sampling = 2
+  JOBID = "1"
+  SIMIDX = "1"
+  TASKID = "1"
+  SAMPLINGTYPE = "unbalanced"
+else
+  nsim = parse(Int64, ARGS[1])
+  DATE = ARGS[2]
+  SIMVERSION = ARGS[3]
+  bootsamps = parse(Int64, ARGS[4])
+  sampling = parse(Int64, ARGS[5])
+  JOBID = ARGS[6]
+  SIMIDX = ARGS[7]
+  TASKID = ARGS[8]
+  SAMPLINGTYPE = sampling == 1 ? "balanced" : sampling == 2 ? "unbalanced" : "unknown"
+  if SAMPLINGTYPE == "unknown"
+    throw("Unknown sampling type $sampling")
+  end
 end
 simname = "sims-nested-$DATE-v$SIMVERSION-s$SAMPLINGTYPE-job$JOBID-sim$SIMIDX-task$TASKID"
 savename = resultspath*simname
