@@ -2,8 +2,9 @@
 
 Paper: [arXiv](https://arxiv.org/abs/2604.25744)
 
-Sections 1, 6, and 7 of the main text and Section B of the supplementary materials report empirical results.
+Sections 1, 6, and 7 of the main text and Sections B, C, D and F of the supplementary materials report empirical results.
 This repository contains code and instructions for reproducing those results.
+Section B and Section D correspond to the "nested" and "crossed" simulations. Section C corresponds to the "zero" simulations. Section F corresponds to the "opt" simulations.
 
 Reproduction of the results requires access to a number of readily available `julia` and `R` packages which
 are listed in their respective scripts, as well as the `varcomptest-jl` `julia` package available [here](https://github.com/awstringer1/varcomptest-jl).
@@ -98,6 +99,13 @@ out of the output file name, i.e. `12345` but not `1`.
   - ID, used for naming output file (`1`) 
 - **Summarize the results**: `section6/02-summarize-crossed.R`. Run this from the command line with the job ID of the results from running the first file, e.g. `Rscript section6/02-summarize-crossed.R 6789`.
   - The script assumes the results are saved in `getwd()` in `R`.
+
+### Other simulations
+The remaining simulations in Supplement C and F are run in a similar manner.
+- **Nested, zero components**: `section6/02-nested-zero.jl`, `02-summarize-nested-zero.R`
+- **Crossed, zero components**: `section6/03-crossed-zero.jl`, `03-summarize-crossed-zero.R`
+- **Nested, optimization**: `section6/05-nested-opt.jl`, `0506-summarize-opt.R`
+- **Crossed, optimization**: `section6/06-crossed-opt.jl`, `0506-summarize-opt.R`
 
 ## Section 7
 
